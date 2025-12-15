@@ -1,0 +1,27 @@
+name: Build and publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  packages: write
+  pull-requests: read
+
+jobs:
+  nodejs-sample-frontend:
+    uses: ./.github/workflows/build-release-nodejs-sample-frontend.yaml
+    secrets: inherit
+  nodejs-sample:
+    uses: ./.github/workflows/build-release-nodejs-sample.yaml
+    secrets: inherit

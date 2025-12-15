@@ -7,9 +7,8 @@ metadata:
   name: "nodejs-sample"
   annotations:
     github.com/project-slug: "bcgov/nr-nodejs-mono-sample"
-    playbook.io.nrs.gov.bc.ca/deployOnPrem: false
+    playbook.io.nrs.gov.bc.ca/deployOnPrem: true
     playbook.io.nrs.gov.bc.ca/playbookPath: playbooks
-    playbook.io.nrs.gov.bc.ca/useAltAppDirName: false
     playbook.io.nrs.gov.bc.ca/clientId: e985d455-b0ff-470b-8731-e004fcfac915
     license: Apache-2.0
     playbook.io.nrs.gov.bc.ca/publishArtifactSuffix: dist node_modules package.json package-lock.json

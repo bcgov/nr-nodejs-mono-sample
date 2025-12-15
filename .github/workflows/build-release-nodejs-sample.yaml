@@ -18,7 +18,7 @@ jobs:
       actions: read
     with:
       preflight_context: build
-      catalog_info: frontend/catalog-info.yaml
+      catalog_info: backend/catalog-info.yaml
     secrets:
       token: ${{ secrets.broker_jwt_e985d455_b0ff_470b_8731_e004fcfac915 }}
   build-publish:
@@ -121,10 +121,10 @@ jobs:
           INTENTION_ID: ${{ env.INTENTION_ID }}
       - name: npm ci
         run: npm ci
-        working-directory: ./frontend
+        working-directory: ./backend
       - name: Build artifact
         run: npm run build --if-present
-        working-directory: ./frontend
+        working-directory: ./backend
       - name: Publish artifact
         id: publish-artifact
         run: |
@@ -136,7 +136,7 @@ jobs:
           echo "artifact_size=$(echo $MANIFEST | jq -r '.layers | map(.size) | add')" >> $GITHUB_OUTPUT
         env:
           PROJECT_TAG: ${{ steps.set-version.outputs.tag }}
-        working-directory: ./frontend
+        working-directory: ./backend
       - name: Send build info
         run: |
           curl -s POST ${{ env.BROKER_URL }}/v1/intention/action/patch \
