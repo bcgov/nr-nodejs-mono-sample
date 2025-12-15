@@ -67,6 +67,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v6
         with:
+          cache-dependency-path: ./frontend
           node-version: 22
           cache: 'npm'
       - name: Set version
