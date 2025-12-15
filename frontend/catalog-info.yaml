@@ -1,0 +1,16 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+spec:
+  system: oscar-example
+  lifecycle: experimental
+metadata:
+  name: nodejs-sample-frontend
+  annotations:
+    license: Apache-2.0
+    playbook.io.nrs.gov.bc.ca/clientId: e985d455-b0ff-470b-8731-e004fcfac915
+    playbook.io.nrs.gov.bc.ca/unitTestsPath: ""
+    playbook.io.nrs.gov.bc.ca/postDeployTestsPath: ""
+    playbook.io.nrs.gov.bc.ca/publishArtifactSuffix: dist node_modules package.json package-lock.json
+    playbook.io.nrs.gov.bc.ca/deployOnPrem: false
+    github.com/project-slug: bcgov/nr-nodejs-mono-sample
+    composer.io.nrs.gov.bc.ca/generators: gh-nodejs-build

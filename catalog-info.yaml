@@ -1,0 +1,9 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: nodejs-sample
+spec:
+  targets:
+    - frontend/catalog-info.yaml
+    - backend/catalog-info.yaml
+  type: path

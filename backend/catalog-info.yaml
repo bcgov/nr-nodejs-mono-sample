@@ -1,0 +1,22 @@
+spec:
+  system: "oscar-example"
+  type: library
+  lifecycle: website
+  owner: ""
+metadata:
+  name: "nodejs-sample"
+  annotations:
+    github.com/project-slug: "bcgov/nr-nodejs-mono-sample"
+    playbook.io.nrs.gov.bc.ca/deployOnPrem: false
+    playbook.io.nrs.gov.bc.ca/playbookPath: playbooks
+    playbook.io.nrs.gov.bc.ca/useAltAppDirName: false
+    playbook.io.nrs.gov.bc.ca/clientId: e985d455-b0ff-470b-8731-e004fcfac915
+    license: Apache-2.0
+    playbook.io.nrs.gov.bc.ca/publishArtifactSuffix: dist node_modules package.json package-lock.json
+    composer.io.nrs.gov.bc.ca/generators: gh-nodejs-build,backstage
+    playbook.io.nrs.gov.bc.ca/unitTestsPath: ""
+    playbook.io.nrs.gov.bc.ca/postDeployTestsPath: ""
+  description: NodeJS sample application
+  title: NodeJS Sample
+apiVersion: backstage.io/v1alpha1
+kind: Component

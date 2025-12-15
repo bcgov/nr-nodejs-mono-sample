@@ -1,0 +1,51 @@
+name: Preflight
+
+on:
+  workflow_call:
+    secrets:
+      token:
+        description: "The Broker token"
+        required: true
+    inputs:
+      catalog_info:
+        description: "The catalog file"
+        type: string
+        default: "catalog-info.yaml"
+        required: false
+      preflight_context:
+        description: 'Determines which pre-flight checks to run. Must be in (build, deploy).'
+        default: ''
+        required: true
+        type: string
+      build_workflow:
+        description: 'Build workflow used to validate the build artifact. (Required if preflight_context is deploy)'
+        default: ''
+        required: false
+        type: string
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  check-jwt:
+    name: Check broker token
+    uses: ./.github/workflows/check-token.yaml
+    secrets:
+      token: ${{ secrets.token }}
+
+  check-build-artifact:
+    name: Check build artifact
+    uses: ./.github/workflows/check-build-artifact.yaml
+    with:
+      build_workflow: ${{ inputs.build_workflow }}
+      catalog_info: ${{ inputs.catalog_info }}
+    if: inputs.preflight_context == 'deploy'
+
+  check-release-package:
+    name: Check and validate release package
+    uses: ./.github/workflows/check-release-package.yaml
+    secrets:
+      token: ${{ secrets.token }}
+    with:
+      catalog_info: ${{ inputs.catalog_info }}
+    if: ${{ inputs.preflight_context == 'build' && github.ref_type == 'tag' }}
