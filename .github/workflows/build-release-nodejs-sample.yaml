@@ -129,6 +129,7 @@ jobs:
         working-directory: ./backend
       - name: Pull static artifacts
         run: |
+          oras login ghcr.io -u ${{ github.actor }} --password-stdin <<< ${{ secrets.GITHUB_TOKEN }}
           echo "Pulling artifact ghcr.io/bcgov-c/nodejs-sample-frontend:${PROJECT_TAG} to ./dist/static"
           oras pull ghcr.io/bcgov-c/nodejs-sample-frontend:${PROJECT_TAG} --output ./dist/static
         working-directory: ./backend
