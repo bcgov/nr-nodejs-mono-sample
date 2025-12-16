@@ -71,6 +71,7 @@ jobs:
           node-version: 22
           cache: 'npm'
       - name: Set version
+        working-directory: ./frontend
         id: set-version
         run: |
           REF_NAME="${{ github.ref_name }}"
