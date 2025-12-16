@@ -15,6 +15,8 @@ metadata:
     composer.io.nrs.gov.bc.ca/generators: gh-nodejs-build,backstage
     playbook.io.nrs.gov.bc.ca/unitTestsPath: ""
     playbook.io.nrs.gov.bc.ca/postDeployTestsPath: ""
+    playbook.io.nrs.gov.bc.ca/ociArtifacts: '[{"artifact":"ghcr.io/bcgov-c/nodejs-sample-frontend:${PROJECT_TAG}","output":
+      "./dist/static"}]'
   description: NodeJS sample application
   title: NodeJS Sample
 apiVersion: backstage.io/v1alpha1

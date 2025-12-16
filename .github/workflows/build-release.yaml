@@ -25,4 +25,5 @@ jobs:
     secrets: inherit
   nodejs-sample:
     uses: ./.github/workflows/build-release-nodejs-sample.yaml
+    needs: [nodejs-sample-frontend]
     secrets: inherit

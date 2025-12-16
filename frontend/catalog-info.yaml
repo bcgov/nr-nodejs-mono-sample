@@ -3,6 +3,8 @@ kind: Component
 spec:
   system: oscar-example
   lifecycle: experimental
+  subcomponentOf:
+    - component:nodejs-sample
 metadata:
   name: nodejs-sample-frontend
   annotations:
