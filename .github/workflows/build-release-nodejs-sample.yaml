@@ -130,8 +130,8 @@ jobs:
       - name: Pull static artifacts
         run: |
           oras login ghcr.io -u ${{ github.actor }} --password-stdin <<< ${{ secrets.GITHUB_TOKEN }}
-          echo "Pulling artifact ghcr.io/bcgov-c/nr-nodejs-mono-sample/nodejs-sample-frontend:${PROJECT_TAG} to ./dist/static"
-          oras pull ghcr.io/bcgov-c/nr-nodejs-mono-sample/nodejs-sample-frontend:${PROJECT_TAG} --output ./dist/static
+          echo "Pulling artifact ghcr.io/bcgov/nr-nodejs-mono-sample/nodejs-sample-frontend:${PROJECT_TAG} to ./dist/static"
+          oras pull ghcr.io/bcgov/nr-nodejs-mono-sample/nodejs-sample-frontend:${PROJECT_TAG} --output ./dist/static
         working-directory: ./backend
         env:
           PROJECT_TAG: ${{ steps.set-version.outputs.tag }}
