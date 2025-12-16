@@ -14,7 +14,7 @@ import configuration from './config/configuration';
       load: [configuration], // loads your configuration.ts
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'process.env.NESTJS_UI_ROOT_PATH' || 'static'),
+      rootPath: join(__dirname, '..', process.env.NESTJS_UI_ROOT_PATH || 'static'),
     }),
   ],
   controllers: [AppController],
