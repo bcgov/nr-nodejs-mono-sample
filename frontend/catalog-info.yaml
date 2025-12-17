@@ -16,3 +16,4 @@ metadata:
     playbook.io.nrs.gov.bc.ca/deployOnPrem: false
     github.com/project-slug: bcgov/nr-nodejs-mono-sample
     composer.io.nrs.gov.bc.ca/generators: gh-nodejs-build
+    playbook.io.nrs.gov.bc.ca/ociArtifacts: ""
