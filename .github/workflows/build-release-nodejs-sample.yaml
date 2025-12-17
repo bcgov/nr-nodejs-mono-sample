@@ -67,9 +67,11 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v6
         with:
+          cache-dependency-path: ./backend
           node-version: 22
           cache: 'npm'
       - name: Set version
+        working-directory: ./backend
         id: set-version
         run: |
           REF_NAME="${{ github.ref_name }}"
@@ -125,11 +127,19 @@ jobs:
       - name: Build artifact
         run: npm run build --if-present
         working-directory: ./backend
+      - name: Pull static artifacts
+        run: |
+          oras login ghcr.io -u ${{ github.actor }} --password-stdin <<< ${{ secrets.GITHUB_TOKEN }}
+          echo "Pulling artifact ghcr.io/bcgov/nr-nodejs-mono-sample/nodejs-sample-frontend:${PROJECT_TAG} to ./dist/static"
+          oras pull ghcr.io/bcgov/nr-nodejs-mono-sample/nodejs-sample-frontend:${PROJECT_TAG} --output ./dist/static
+        working-directory: ./backend
+        env:
+          PROJECT_TAG: ${{ steps.set-version.outputs.tag }}
       - name: Publish artifact
         id: publish-artifact
         run: |
           oras login ghcr.io -u ${{ github.actor }} --password-stdin <<< ${{ secrets.GITHUB_TOKEN }}
-          oras push --export-manifest manifest.json ghcr.io/${{ github.repository }}/package:${PROJECT_TAG} dist node_modules package.json package-lock.json
+          oras push --export-manifest manifest.json ghcr.io/${{ github.repository }}/nodejs-sample:${PROJECT_TAG} dist node_modules package.json package-lock.json
           MANIFEST=$(cat ./manifest.json)
           echo $MANIFEST
           echo "artifact_sha256=$(echo $MANIFEST | jq -r '.layers[] | select(.annotations["org.opencontainers.image.title"] == "dist") | .digest')" >> $GITHUB_OUTPUT
@@ -148,13 +158,28 @@ jobs:
           ARTIFACT_SIZE: ${{ steps.publish-artifact.outputs.artifact_size }}
           BUILD_TOKEN: ${{ env.ACTION_TOKEN_BUILD }}
       - name: Close intention
+        id: close-intention
         if: ${{ success() && env.INTENTION_TOKEN != '' }}
         uses: bcgov-nr/action-broker-intention-close@v3
         with:
           intention_token: ${{ env.INTENTION_TOKEN }}
       - name: Close intention (Failure)
+        id: close-intention-failure
         if: ${{ failure() && env.INTENTION_TOKEN != '' }}
         uses: bcgov-nr/action-broker-intention-close@v3
         with:
           intention_token: ${{ env.INTENTION_TOKEN }}
           outcome: failure
+      - name: Build summary
+        if: always()
+        run: |
+          echo "## Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "| Property | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Version | ${{ steps.set-version.outputs.project_version }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Size | ${{ steps.publish-artifact.outputs.artifact_size }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| SHA256 | ${{ steps.publish-artifact.outputs.artifact_sha256 }} |" >> $GITHUB_STEP_SUMMARY
+          AUDIT_URL="${{ steps.close-intention.outputs.audit-url }}${{ steps.close-intention-failure.outputs.audit-url }}"
+          if [[ -n "$AUDIT_URL" ]]; then
+            echo "Audit: $AUDIT_URL" >> $GITHUB_STEP_SUMMARY
+          fi

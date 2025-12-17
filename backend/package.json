@@ -24,6 +24,7 @@
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.1.9",
     "@nestjs/platform-express": "^11.1.9",
+    "@nestjs/serve-static": "^5.0.4",
     "axios": "^1.11.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.2"

@@ -14,6 +14,7 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
+  actions: read
   contents: read
   packages: write
   pull-requests: read
@@ -24,4 +25,5 @@ jobs:
     secrets: inherit
   nodejs-sample:
     uses: ./.github/workflows/build-release-nodejs-sample.yaml
+    needs: [nodejs-sample-frontend]
     secrets: inherit
